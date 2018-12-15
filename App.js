@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput} from 'react-native';
+import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -21,10 +21,19 @@ export default class App extends Component<Props> {
 
   state = {
     newTodo: '',
+    todos: [],
   }
 
   onChangeText(newTodo) {
     this.setState({ newTodo });
+  }
+
+  onPressAdd() {
+    const { newTodo } = this.state;
+    this.setState ({
+      newTodo: '',
+      todos: [newTodo, ...this.state.todos],
+    })
   }
 
   render() {
@@ -32,9 +41,15 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <TextInput
+          value={this.state.newTodo}
           style={styles.form}
           onChangeText={text => this.onChangeText(text)}
         />
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => this.onPressAdd()}>
+          <Text style={styles.addButtonText}>Add</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -49,4 +64,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEE',
     padding: 10,
   },
+  addButton: {
+    backgroundColor: '#333',
+    padding: 14,
+    borderRadius: 20,
+    marginTop: 10,
+  },
+  addButtonText: {
+    color: '#FFF',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  }
 });
