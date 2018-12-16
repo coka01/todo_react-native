@@ -38,6 +38,13 @@ export default class App extends Component<Props> {
     })
   }
 
+  onPressDelete(index) {
+    this.setState({
+      // index番目の配列を抜いた配列を生成する
+      todos: this.state.todos.filter((t, i) => i !== index),
+    });
+  }
+
   render() {
     console.log(this.state);
     return (
@@ -52,7 +59,9 @@ export default class App extends Component<Props> {
           onPress={() => this.onPressAdd()}>
           <Text style={styles.addButtonText}>Add</Text>
         </TouchableOpacity>
-        <TodoList todos={this.state.todos} />
+        <TodoList
+          todos={this.state.todos}
+          onPressDelete={(index) => this.onPressDelete(index)} />
       </View>
     );
   }
